@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<layout>
+    <Pagaleve_Pix_pay_success translate="label">
+    </Pagaleve_Pix_pay_success>
+    <sales_order_view>
+        <reference name="sales.order.view">
+            <block type="Pagaleve_Pix/paylink" name="Pagaleve_Pix_paylink" as="Pagaleve_Pix_paylink" />
+        </reference>
+    </sales_order_view>
+    <Pagaleve_Pix_payment_default>
+        <reference name="content">
+            <block type="Pagaleve_Pix/payment" name="payment"
+                   template="Pagaleve_Pix/default/payment.phtml"/>
+        </reference>
+    </Pagaleve_Pix_payment_default>
+</layout>
