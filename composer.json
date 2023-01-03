@@ -15,7 +15,30 @@
 	],
 	"extra": {
 		"map" : [
-			
+			[
+				"app/code/community/Pagaleve/Pix",
+				"app/code/community/Pagaleve/Pix"
+			],
+			[
+				"app/design/adminhtml/default/default/layout/pagaleve.xml",
+				"app/design/adminhtml/default/default/layout/pagaleve.xml"
+			],
+			[
+				"app/design/adminhtml/default/default/template/pagaleve",
+				"app/design/adminhtml/default/default/template/pagaleve"
+			],
+			[
+				"app/design/frontend/default/default/layout/pagaleve.xml",
+				"app/design/frontend/default/default/layout/pagaleve.xml"
+			],
+			[
+				"/app/design/frontend/default/default/template/pagaleve",
+				"app/design/frontend/default/default/template/pagaleve"
+			],
+			[
+				"app/etc/modules/Pagaleve_Pix.xml",
+				"app/etc/modules/Pagaleve_Pix.xml"
+			]
 		]
 	}
 }
