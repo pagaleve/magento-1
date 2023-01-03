@@ -1,0 +1,21 @@
+{
+	"name": "pagaleve/magento-1",
+	"type": "magento-module",
+	"description": "Official Pagaleve plugin payments online for Magento 1.",
+	"require": {
+		"magento-hackathon/magento-composer-installer": "*"
+	}, 
+	"authors": [
+		{
+			"name": "Warley Elias",
+			"email": "warley.elias@pentagrama.com.br",
+			"homepage": "https://github.com/warleyelias",
+			"role": "Developer"
+		}
+	],
+	"extra": {
+		"map" : [
+			
+		]
+	}
+}
