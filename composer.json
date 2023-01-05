@@ -4,7 +4,11 @@
 	"description": "Official Pagaleve plugin payments online for Magento 1.",
 	"require": {
 		"magento-hackathon/magento-composer-installer": "*"
-	}, 
+	},
+	"license": [
+		"OSL-3.0",
+		"AFL-3.0"
+	],
 	"authors": [
 		{
 			"name": "Warley Elias",
@@ -15,7 +19,38 @@
 	],
 	"extra": {
 		"map" : [
-			
+			[
+				"app/code/community/Pagaleve/Pix",
+				"app/code/community/Pagaleve/Pix"
+			],
+			[
+				"app/design/adminhtml/default/default/layout/pagaleve.xml",
+				"app/design/adminhtml/default/default/layout/pagaleve.xml"
+			],
+			[
+				"app/design/adminhtml/default/default/template/pagaleve",
+				"app/design/adminhtml/default/default/template/pagaleve"
+			],
+			[
+				"app/design/frontend/base/default/layout/pagaleve.xml",
+				"app/design/frontend/base/default/layout/pagaleve.xml"
+			],
+			[
+				"/app/design/frontend/base/default/template/pagaleve",
+				"app/design/frontend/base/default/template/pagaleve"
+			],
+			[
+				"app/etc/modules/Pagaleve_Pix.xml",
+				"app/etc/modules/Pagaleve_Pix.xml"
+			],
+			[
+				"app/locale/pt_BR/Pagaleve_Pix.csv",
+				"app/locale/pt_BR/Pagaleve_Pix.csv"
+			],
+			[
+				"skin/frontend/base/default/pagaleve",
+				"skin/frontend/base/default/pagaleve"
+			]
 		]
 	}
 }

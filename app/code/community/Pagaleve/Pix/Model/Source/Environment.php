@@ -14,16 +14,14 @@
  * @author     MagentoNet <contato@magento.net.br>
  */
 
-class Pagaleve_Pix_Model_Source_PaymentFail
+class Pagaleve_Pix_Model_Source_Environment
 {
 	public function toOptionArray ()
 	{
 		$options = array();
-        
-        $options['0'] = Mage::helper('adminhtml')->__('Pendente - Mantém o carrinho');
-        $options['1'] = Mage::helper('adminhtml')->__('Cancelada - Limpa o carrinho');
-    
-        
+        $options['0'] = Mage::helper('adminhtml')->__('Homologation');
+        $options['1'] = Mage::helper('adminhtml')->__('Production');
+
 		return $options;
 	}
 

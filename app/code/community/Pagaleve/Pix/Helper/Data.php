@@ -16,24 +16,64 @@
 
 class Pagaleve_Pix_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    public function getVersion() {
+        return (string) Mage::getConfig()->getNode()->modules->Pagaleve_Pix->version;
+    }
 
-    /**
-     * Escapa entidades HTML.
-     * Função criada para compatibilidade com versões mais antigas do Magento.
-     *
-     * @param   mixed $data
-     * @param   array $allowedTags
-     * @return  string
-     */
-    public function escapeHtml($data, $allowedTags = null)
-    {
-        $core_helper = Mage::helper('core');
-        if (method_exists($core_helper, "escapeHtml")) {
-            return $core_helper->escapeHtml($data, $allowedTags);
-        } elseif (method_exists($core_helper, "htmlEscape")) {
-            return $core_helper->htmlEscape($data, $allowedTags);
-        } else {
-            return $data;
-        }   
-    } 
+    public function formatAmount($amount) {
+        return $this->onlyNumbers(round($amount, 2) * 100);
+    }
+
+    public function onlyNumbers($string) {
+        return (int) preg_replace('/[^0-9]/', '', $string);
+    }
+
+    public function formatPhone($phone) {
+        $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
+        return $formattedPhone;
+    }
+
+    protected function getCaptureIdByPaymentData($paymentData) {
+        if (
+            isset($paymentData['authorization']['captures'])
+            && count($paymentData['authorization']['captures']) >= 1
+        ) {
+            $result = reset($paymentData['authorization']['captures']);
+            return $result['id'] ?? '';
+        }
+        return '';
+    }
+
+    public function makeInvoice($_order, $paymentData) {
+        $invoice = Mage::getModel('sales/service_order', $_order)->prepareInvoice();
+        $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
+        $invoice->register();
+        $_order->setCustomerNoteNotify(false);
+        $_order->setIsInProcess(true);
+
+        $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
+        $_order->setState($orderState, $orderState, '', true);
+        
+        $transactionSave = Mage::getModel('core/resource_transaction')
+            ->addObject($invoice)
+            ->addObject($invoice->getOrder())
+            ->save();
+        
+        $invoice->sendEmail(true, '');
+
+        $captureId = $this->getCaptureIdByPaymentData($paymentData);
+        $payment = $_order->getPayment();
+        if (isset($paymentData['id']) && $paymentData['id']) {
+            $payment->setPagalevePaymentId($paymentData['id']);
+            if ($captureId) {
+                $payment->setPagaleveCaptureId($captureId);
+            }
+            if (isset($paymentData['authorization']['expiration'])) {
+                $expirationDate = date('Y-m-d H:i:s', strtotime($paymentData['authorization']['expiration']));
+                $payment->setPagaleveExpirationDate($expirationDate);
+            }
+            $payment->save();
+        }
+        $_order->save();
+    }
 }
