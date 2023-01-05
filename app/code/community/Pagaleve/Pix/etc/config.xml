@@ -81,11 +81,11 @@
         <events>
             <sales_order_creditmemo_refund>
                 <observers>
-                    <pagaleve_pix_model_observer>
+                    <pagaleve_pix_refund_observer>
                         <type>singleton</type>
-                        <class>Pagaleve_Pix_Model_Observer</class>
+                        <class>Pagaleve_Pix/observer</class>
                         <method>refund</method>
-                    </pagaleve_pix_model_observer>
+                    </pagaleve_pix_refund_observer>
                 </observers>
             </sales_order_creditmemo_refund>
         </events>
@@ -102,14 +102,14 @@
 
     <crontab>
         <jobs>
-            <pagaleve_pix_model_observer>
+            <pagaleve_payment_process_payments>
                 <schedule>
                     <cron_expr>*/10 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Pagaleve_Pix/observer::execute</model>
+                    <model>Pagaleve_Pix/cron::execute</model>
                 </run>
-            </pagaleve_pix_model_observer>
+            </pagaleve_payment_process_payments>
         </jobs>
     </crontab>
 

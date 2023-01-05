@@ -4,7 +4,7 @@
  * @Email: warleyelias@gmail.com
  * @Date: 2023-01-04 10:49:34
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-01-04 17:19:34
+ * @Last Modified time: 2023-01-05 14:00:53
  */
 
 class Pagaleve_Pix_Model_Payment extends Mage_Payment_Model_Method_Abstract
@@ -18,6 +18,8 @@ class Pagaleve_Pix_Model_Payment extends Mage_Payment_Model_Method_Abstract
     protected $_isInitializeNeeded = true;
     protected $_isGateway = true;
     protected $_canManageRecurringProfiles = false;
+    protected $_canRefund = true;
+    protected $_canRefundInvoicePartial = true;
 
     public function initialize($paymentAction, $stateObject)
     {
@@ -45,7 +47,7 @@ class Pagaleve_Pix_Model_Payment extends Mage_Payment_Model_Method_Abstract
             
         } catch (Exception $e) {
             Mage::log($e->getMessage(), null, 'pagaleve.log');
-            Mage::throwException($this->getMessageError());
+            Mage::throwException($e->getMessage());
         }
 
         return $this;

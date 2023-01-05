@@ -64,22 +64,14 @@ class Pagaleve_Pix_Helper_Data extends Mage_Core_Helper_Abstract
         $captureId = $this->getCaptureIdByPaymentData($paymentData);
         $payment = $_order->getPayment();
         if (isset($paymentData['id']) && $paymentData['id']) {
-            Mage::log(__LINE__, null, 'pagaleve.log');
-            Mage::log(__LINE__, null, 'pagaleve.log');
-            Mage::log(__LINE__, null, 'pagaleve.log');
             $payment->setPagalevePaymentId($paymentData['id']);
-            Mage::log(__LINE__, null, 'pagaleve.log');
-            Mage::log($captureId, null, 'pagaleve.log');
-            Mage::log(__LINE__, null, 'pagaleve.log');
             if ($captureId) {
-                Mage::log(__LINE__, null, 'pagaleve.log');
-                Mage::log(__LINE__, null, 'pagaleve.log');
-                Mage::log(__LINE__, null, 'pagaleve.log');
                 $payment->setPagaleveCaptureId($captureId);
             }
-            Mage::log(__LINE__, null, 'pagaleve.log');
-            Mage::log(__LINE__, null, 'pagaleve.log');
-            Mage::log(__LINE__, null, 'pagaleve.log');
+            if (isset($paymentData['authorization']['expiration'])) {
+                $expirationDate = date('Y-m-d H:i:s', strtotime($paymentData['authorization']['expiration']));
+                $payment->setPagaleveExpirationDate($expirationDate);
+            }
             $payment->save();
         }
         $_order->save();

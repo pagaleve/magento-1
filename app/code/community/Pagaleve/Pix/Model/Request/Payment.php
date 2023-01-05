@@ -4,7 +4,7 @@
  * @Email: warleyelias@gmail.com
  * @Date: 2023-01-04 17:06:43
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-01-05 10:50:09
+ * @Last Modified time: 2023-01-05 12:00:22
  */
 
 class Pagaleve_Pix_Model_Request_Payment extends Mage_Core_Model_Abstract {
@@ -27,5 +27,10 @@ class Pagaleve_Pix_Model_Request_Payment extends Mage_Core_Model_Abstract {
         $requestParams = $this->prepareRequestParams($_order);
         $_pagalevePixApi = Mage::getModel('Pagaleve_Pix/api');
         return $_pagalevePixApi->makePayment($requestParams);
+    }
+
+    public function getPayment($pagalevePaymentId) {
+        $_pagalevePixApi = Mage::getModel('Pagaleve_Pix/api');
+        return $_pagalevePixApi->getPaymenttData($pagalevePaymentId);
     }
 }

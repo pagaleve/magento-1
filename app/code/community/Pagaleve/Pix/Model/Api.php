@@ -4,7 +4,7 @@
  * @Email: warleyelias@gmail.com
  * @Date: 2023-01-04 12:50:36
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-01-05 10:52:32
+ * @Last Modified time: 2023-01-05 14:59:33
  */
 
 class Pagaleve_Pix_Model_Api
@@ -23,6 +23,8 @@ class Pagaleve_Pix_Model_Api
     const CONFIG_PAGALEVE_CHECKOUT_URL_SANDBOX = 'payment/Pagaleve_Pix/checkout_url_sandbox';
     const CONFIG_PAGALEVE_PAYMENT_URL = 'payment/Pagaleve_Pix/payment_url';
     const CONFIG_PAGALEVE_PAYMENT_URL_SANDBOX = 'payment/Pagaleve_Pix/payment_url_sandbox';
+    const CONFIG_PAGALEVE_REFUND_URL = 'payment/Pagaleve_Pix/refund_url';
+    const CONFIG_PAGALEVE_REFUND_URL_SANDBOX = 'payment/Pagaleve_Pix/refund_url_sandbox';
 
 	protected $_helper;
 	protected $_baseUrl;
@@ -31,6 +33,7 @@ class Pagaleve_Pix_Model_Api
     protected $_token_url;
     protected $_checkout_url;
     protected $_payment_url;
+    protected $_refund_url;
 
 	protected function getConfigData($path, $storeId = null) {
 		if (null === $storeId) {
@@ -47,12 +50,14 @@ class Pagaleve_Pix_Model_Api
             $this->_token_url = $this->getConfigData(self::CONFIG_PAGALEVE_TOKEN_URL);
             $this->_checkout_url = $this->getConfigData(self::CONFIG_PAGALEVE_CHECKOUT_URL);
             $this->_payment_url = $this->getConfigData(self::CONFIG_PAGALEVE_PAYMENT_URL);
+            $this->_refund_url = $this->getConfigData(self::CONFIG_PAGALEVE_REFUND_URL);
 		} else {
             $this->_token_username = $this->getConfigData(self::CONFIG_PAGALEVE_TOKEN_USERNAME_SANDBOX);
             $this->_token_password = $this->getConfigData(self::CONFIG_PAGALEVE_TOKEN_PASSWORD_SANDBOX);
             $this->_token_url = $this->getConfigData(self::CONFIG_PAGALEVE_TOKEN_URL_SANDBOX);
             $this->_checkout_url = $this->getConfigData(self::CONFIG_PAGALEVE_CHECKOUT_URL_SANDBOX);
             $this->_payment_url = $this->getConfigData(self::CONFIG_PAGALEVE_PAYMENT_URL_SANDBOX);
+            $this->_refund_url = $this->getConfigData(self::CONFIG_PAGALEVE_REFUND_URL_SANDBOX);
 		}
 	}
 
@@ -104,7 +109,6 @@ class Pagaleve_Pix_Model_Api
         if ($request->getStatus() == 200) {
             $requestBody = $request->getbody();
             $result = json_decode($requestBody, true);
-            Mage::log($result, null, 'pagaleve.log');
             return $result;
         }
         return '';
@@ -119,7 +123,19 @@ class Pagaleve_Pix_Model_Api
         if ($request->getStatus() == 201) {
             $requestBody = $request->getbody();
             $result = json_decode($requestBody, true);
-            Mage::log($result, null, 'pagaleve.log');
+            return $result;
+        }
+        return '';
+    }
+
+    public function getPaymenttData($pagalevePaymentId) {
+        $client = $this->getClient($this->_payment_url . '/' . $pagalevePaymentId);
+        $client->setMethod(Zend_Http_Client::GET);
+
+        $request = $client->request();
+        if ($request->getStatus() == 200) {
+            $requestBody = $request->getbody();
+            $result = json_decode($requestBody, true);
             return $result;
         }
         return '';
@@ -134,7 +150,21 @@ class Pagaleve_Pix_Model_Api
         if ($request->getStatus() == 201) {
             $requestBody = $request->getbody();
             $result = json_decode($requestBody, true);
-            Mage::log($result, null, 'pagaleve.log');
+            return $result;
+        }
+        return '';
+    }
+
+    public function makeRefund($pagalevePaymentId, $params) {
+        $uri = sprintf($this->_refund_url, $pagalevePaymentId);
+        $client = $this->getClient($uri);
+        $client->setRawData(json_encode($params), 'application/json');
+        $client->setMethod(Zend_Http_Client::POST);
+
+        $request = $client->request();
+        if ($request->getStatus() == 200) {
+            $requestBody = $request->getbody();
+            $result = json_decode($requestBody, true);
             return $result;
         }
         return '';
