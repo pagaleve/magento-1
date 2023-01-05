@@ -32,12 +32,12 @@
 				"app/design/adminhtml/default/default/template/pagaleve"
 			],
 			[
-				"app/design/frontend/default/default/layout/pagaleve.xml",
-				"app/design/frontend/default/default/layout/pagaleve.xml"
+				"app/design/frontend/base/default/layout/pagaleve.xml",
+				"app/design/frontend/base/default/layout/pagaleve.xml"
 			],
 			[
-				"/app/design/frontend/default/default/template/pagaleve",
-				"app/design/frontend/default/default/template/pagaleve"
+				"/app/design/frontend/base/default/template/pagaleve",
+				"app/design/frontend/base/default/template/pagaleve"
 			],
 			[
 				"app/etc/modules/Pagaleve_Pix.xml",
