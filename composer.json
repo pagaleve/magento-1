@@ -4,7 +4,11 @@
 	"description": "Official Pagaleve plugin payments online for Magento 1.",
 	"require": {
 		"magento-hackathon/magento-composer-installer": "*"
-	}, 
+	},
+	"license": [
+		"OSL-3.0",
+		"AFL-3.0"
+	],
 	"authors": [
 		{
 			"name": "Warley Elias",
