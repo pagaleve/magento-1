@@ -1,17 +1,10 @@
 <?php
-/**
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- *
- * @category   payment
- * @package    Multikomerce_Redecard
- * @copyright  Copyright (c) 2011 MagentoNet (www.magento.net.br)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @author     MagentoNet <contato@magento.net.br>
+/*
+ * @Author: Warley Elias
+ * @Email: warleyelias@gmail.com
+ * @Date: 2023-01-04 10:49:34
+ * @Last Modified by: Warley Elias
+ * @Last Modified time: 2023-01-04 17:19:34
  */
 
 class Pagaleve_Pix_Model_Payment extends Mage_Payment_Model_Method_Abstract
@@ -22,81 +15,39 @@ class Pagaleve_Pix_Model_Payment extends Mage_Payment_Model_Method_Abstract
     protected $_infoBlockType = 'Pagaleve_Pix/info';
     protected $_canUseInternal = true;
     protected $_canUseForMultishipping = false;
-    //protected $_canCapture = true;
-    
-    //protected $_order = null;
+    protected $_isInitializeNeeded = true;
+    protected $_isGateway = true;
+    protected $_canManageRecurringProfiles = false;
 
-    /**
-     * Assign data to info model instance
-     *
-     * @param   mixed $data
-     * @return  Mage_Payment_Model_Info
-     */
-    public function assignData($data)
+    public function initialize($paymentAction, $stateObject)
     {
+        $payment = $this->getInfoInstance();
+        $this->_place($payment);
         return $this;
     }
 
-
- /**
-     * Prepare info instance for save
-     * Prepara a instancia info para receber os dados do cartão
-     * @return Mage_Payment_Model_Abstract
+    /**
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param $amount
+     * @return $this
+     * @throws Mage_Core_Exception
      */
-    public function prepareSave()
-    {       
-        // $quote = Mage::getSingleton("checkout/cart")->getQuote();
-        // Mage::log($quote, null, 'quotePrepareObserver.log', true);
-        // $payment = $quote->getPayment();
+    public function _place(Mage_Sales_Model_Order_Payment $payment)
+    {   
+        try {
+            //Make PagaLeve Checkout
+            $_order = $payment->getOrder();
+            $_pagaleveCheckout = Mage::getModel('Pagaleve_Pix/request_checkout');
+            $transaction = $_pagaleveCheckout->makeCheckout($_order);
+
+            $payment->setPagaleveCheckoutId($transaction['id']);
+            $payment->setPagaleveCheckoutUrl($transaction['checkout_url']);
+            
+        } catch (Exception $e) {
+            Mage::log($e->getMessage(), null, 'pagaleve.log');
+            Mage::throwException($this->getMessageError());
+        }
+
         return $this;
     }
-    /**
-     *  Retorna pedido
-     *
-     *  @return	  Mage_Sales_Model_Order
-     */
-    public function getOrder()
-    {
-        Mage::log("hey2", null, 'hey2.log', true);
-        if ($this->_order == null) {
-        }
-        return $this->_order;
-    }
-
-    /**
-     *  Associa pedido
-     *
-     *  @param Mage_Sales_Model_Order $order
-     */
-    public function setOrder($order)
-    {
-        if ($order instanceof Mage_Sales_Model_Order) {
-            $this->_order = $order;
-        } elseif (is_numeric($order)) {
-            $this->_order = Mage::getModel('sales/order')->load($order);
-        } else {
-            $this->_order = null;
-        }
-        
-        return $this;
-    }
-
-    public function savePayment() {
-        return Mage::getUrl('pagaleve/pay/redirect', $params);
-    }
-
-   public function getOrderPlaceRedirectUrl($orderId = 0)
-	{
-        $params = array();
-        $params['_secure'] = true;
-        
-        if ($orderId != 0 && is_numeric($orderId)) {
-            $params['order_id'] = $orderId;
-        }
-       
-        Mage::log($orderId, null, 'orderIdPaymentPHP.log', true);
-        
-        return Mage::getUrl('pagaleve/pay/redirect', $params);
-    }
-        
 }

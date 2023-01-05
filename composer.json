@@ -38,6 +38,14 @@
 			[
 				"app/etc/modules/Pagaleve_Pix.xml",
 				"app/etc/modules/Pagaleve_Pix.xml"
+			],
+			[
+				"app/locale/pt_BR/Pagaleve_Pix.csv",
+				"app/locale/pt_BR/Pagaleve_Pix.csv"
+			],
+			[
+				"skin/frontend/base/default/pagaleve",
+				"skin/frontend/base/default/pagaleve"
 			]
 		]
 	}

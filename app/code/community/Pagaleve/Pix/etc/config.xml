@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Pagaleve_Pix>
-            <version>1.1.22</version>
+            <version>1.2.0</version>
         </Pagaleve_Pix>
     </modules>
     <global>
@@ -11,9 +11,6 @@
                 <class>Pagaleve_Pix_Model</class>
             </Pagaleve_Pix>
         </models>
-
-        <events>
-        </events>
         <resources>
             <Pagaleve_Pix_setup>
                 <setup>
@@ -55,6 +52,13 @@
                     <frontName>pagaleve</frontName>
                 </args>
             </Pagaleve_Pix>
+            <checkout>
+                <args>
+                    <modules>
+                        <Pagaleve_Pix before="Mage_Checkout">Pagaleve_Pix_Checkout</Pagaleve_Pix>
+                    </modules>
+                </args>
+            </checkout>
         </routers>
         <translate>
             <modules>
@@ -68,21 +72,10 @@
         <layout>
             <updates>
                 <Pagaleve_Pix>
-                    <file>Pagaleve_Pix.xml</file>
+                    <file>pagaleve.xml</file>
                 </Pagaleve_Pix>
             </updates>
         </layout>
-        <!--events>
-            <controller_front_send_response_after>
-                <observers>
-                    <pagaleve_pix_model_observer>
-                        <type>singleton</type>
-                        <class>Pagaleve_Pix_Model_Observer</class>
-                        <method>payment</method>
-                    </pagaleve_pix_model_observer>
-                </observers>                
-            </controller_front_send_response_after>
-        </events-->
     </frontend>
     <adminhtml>
         <events>
@@ -123,12 +116,26 @@
     <default>
          <payment>
              <Pagaleve_Pix>
-                  <model>Pagaleve_Pix_Model_Payment</model>
-                  <active>0</active>
-                  <title>PIX 4x sem juros - Pagaleve</title>
-                  <approve_url>checkout/onepage/success</approve_url>              
-                  <url_test>https://ve3zdjmt4h.execute-api.us-east-1.amazonaws.com/test</url_test>
-                  <url_prod>https://ke8lffc2u8.execute-api.us-east-1.amazonaws.com/prod2</url_prod>
+                <model>Pagaleve_Pix/payment</model>
+                <active>0</active>
+                <title>PIX 4x sem juros - Pagaleve</title>
+                <environment>0</environment>
+                <order_status>pending</order_status>
+                <retry_deadline>2</retry_deadline>
+                <sort_order>10</sort_order>
+                <payment_action>authorize</payment_action>
+                <token_url>https://api.pagaleve.com.br/v1/authentication</token_url>
+                <token_url_sandbox>https://sandbox-api.pagaleve.io/v1/authentication</token_url_sandbox>
+                <checkout_url>https://api.pagaleve.com.br/v1/checkouts</checkout_url>
+                <checkout_url_sandbox>https://sandbox-api.pagaleve.io/v1/checkouts</checkout_url_sandbox>
+                <payment_url>https://api.pagaleve.com.br/v1/payments</payment_url>
+                <payment_url_sandbox>https://sandbox-api.pagaleve.io/v1/payments</payment_url_sandbox>
+                <capture_url>https://api.pagaleve.com.br/v1/payments/%s/capture</capture_url>
+                <capture_url_sandbox>https://sandbox-api.pagaleve.io/v1/payments/%s/capture</capture_url_sandbox>
+                <refund_url>https://api.pagaleve.com.br/v1/payments/%s/refund</refund_url>
+                <refund_url_sandbox>https://sandbox-api.pagaleve.io/v1/payments/%s/refund</refund_url_sandbox>
+                <release_url>https://api.pagaleve.com.br/v1/payments/%s/release</release_url>
+                <release_url_sandbox>https://sandbox-api.pagaleve.io/v1/payments/%s/release</release_url_sandbox>
             </Pagaleve_Pix>
         </payment>
     </default>
