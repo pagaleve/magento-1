@@ -50,6 +50,10 @@
 			[
 				"skin/frontend/base/default/pagaleve",
 				"skin/frontend/base/default/pagaleve"
+			],
+			[
+				"skin/adminhtml/default/default/pagaleve",
+				"skin/adminhtml/default/default/pagaleve"
 			]
 		]
 	}
