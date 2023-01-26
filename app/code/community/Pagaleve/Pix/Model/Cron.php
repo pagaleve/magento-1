@@ -37,7 +37,7 @@ class Pagaleve_Pix_Model_Cron {
         $collection->addFieldToFilter('payment.method', ['in' => $paymentCode]);
         $collection->addFieldToFilter('created_at',['from' => $fromDate, 'to' => $toDate]);
         $collection->addAttributeToFilter('status', $status);
-        Mage::depura((string)$collection->getSelect());
+        //Mage::depura((string)$collection->getSelect());
         return $collection;
     }
 
@@ -47,17 +47,13 @@ class Pagaleve_Pix_Model_Cron {
         $_pagalevePayment = Mage::getModel('Pagaleve_Pix/request_payment');
         $collection = $this->getOrderCollection();
         
-        Mage::depura(__LINE__);
         foreach ($collection as $_order) {
             try {
                 if($_order->getPagaleveCheckoutId()) {
                     $checkoutData = $_pagaleveCheckout->getCheckout($_order->getPagaleveCheckoutId());
-                    Mage::depura($_order->getIncrementId());
                     if (is_array($checkoutData) && isset($checkoutData['state'])) {
-                        Mage::depura($checkoutData['state']);
                         if ($checkoutData['state'] == 'AUTHORIZED') {
                             $paymentData = $_pagalevePayment->makePayment($_order);
-                            Mage::depura($paymentData);
                             if (is_array($paymentData) && count($paymentData) > 0) {
                                 $_order->getPayment()->setPagalevePaymentId($paymentData['id'])
                                     ->save();
