@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Pagaleve_Pix>
-            <version>1.2.0</version>
+            <version>1.2.3</version>
         </Pagaleve_Pix>
     </modules>
     <global>

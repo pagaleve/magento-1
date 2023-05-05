@@ -5,3 +5,12 @@
     background-size: contain;
     background-position: center;
 }
+
+.checkout-onepage-success .pagaleve-payment-success-details {
+    margin-top: 15px;
+}
+
+.checkout-onepage-success .pagaleve-payment-success-details img {
+    margin: auto;
+    margin-bottom: 10px;
+}

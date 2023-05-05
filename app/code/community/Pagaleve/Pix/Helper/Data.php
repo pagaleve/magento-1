@@ -16,6 +16,8 @@
 
 class Pagaleve_Pix_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const CONFIG_PAGALEVE_CHECKOUT_TRANSPARENT_ENABLED = 'payment/Pagaleve_Pix/enabled_transparent_checkout';
+
     public function getVersion() {
         return (string) Mage::getConfig()->getNode()->modules->Pagaleve_Pix->version;
     }
@@ -75,5 +77,17 @@ class Pagaleve_Pix_Helper_Data extends Mage_Core_Helper_Abstract
             $payment->save();
         }
         $_order->save();
+    }
+
+    protected function getConfigData($path, $storeId = null)
+    {
+        if (null === $storeId) {
+            $storeId = Mage::app()->getStore()->getId();
+        }
+        return Mage::getStoreConfig($path, $storeId);
+    }
+
+    public function isTransparentCheckoutEnabled() {
+        return (bool) $this->getConfigData(self::CONFIG_PAGALEVE_CHECKOUT_TRANSPARENT_ENABLED);
     }
 }

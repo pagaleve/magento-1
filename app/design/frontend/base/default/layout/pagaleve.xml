@@ -45,4 +45,20 @@
 	<checkout_multishipping_billing>
 		<update handle="pagaleve_checkout_handle"/>
 	</checkout_multishipping_billing>
+
+	<checkout_onepage_success>
+        <reference name="head">
+			<action method="addCss"><stylesheet>pagaleve/css/styles.css</stylesheet></action>
+			<action method="addItem"><type>skin_js</type><name>pagaleve/js/transparent_checkout.js</name></action>
+		</reference>
+        <reference name="content">
+            <block type="Pagaleve_Pix/checkout_success_payment" name="pagaleve_pix_checkout_success_payment">
+                <action method="addPaymentRender">
+                    <type>Pagaleve_Pix</type>
+                    <block>Pagaleve_Pix/checkout_success_payment_pix</block>
+                    <template>pagaleve/checkout/success/payment/pix.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </checkout_onepage_success>
 </layout>

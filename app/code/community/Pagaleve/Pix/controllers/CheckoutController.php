@@ -4,7 +4,7 @@
  * @Email: warleyelias@gmail.com
  * @Date: 2023-01-04 16:43:56
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-01-05 12:50:35
+ * @Last Modified time: 2023-05-04 16:37:37
  */
 
 class Pagaleve_Pix_CheckoutController extends Mage_Core_Controller_Front_Action {
@@ -41,5 +41,15 @@ class Pagaleve_Pix_CheckoutController extends Mage_Core_Controller_Front_Action 
 
     public function cancelAction() {
         $this->_redirect('/');
+    }
+
+    public function abandonAction() {
+        $orderId = $this->getRequest()->getParam('orderId');
+        //create a new cart using an order
+        $order = Mage::getModel('sales/order')->load($orderId);
+        $quote = Mage::getModel('sales/quote')->load($order->getQuoteId());
+        $quote->setIsActive(1)->save();
+        Mage::getSingleton('checkout/session')->replaceQuote($quote);
+        $this->_redirect('checkout/onepage');
     }
 }

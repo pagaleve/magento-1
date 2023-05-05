@@ -1,0 +1,35 @@
+<?php
+/*
+ * @Author: Warley Elias
+ * @Email: warley.elias@pentagrama.com.br
+ * @Date: 2023-05-03 16:15:26
+ * @Last Modified by: Warley Elias
+ * @Last Modified time: 2023-05-04 16:21:51
+ */
+?>
+<?php if ($this->getMethodCode() === 'Pagaleve_Pix' && $this->isTransparentCheckoutEnabled()) : ?>
+    <?php $_order = $this->getOrder(); ?>
+    <?php $_payment = $this->getPayment(); ?>
+    <div id="pagaleve-transparent-checkout-root"></div>
+    <script src="https://transparent-checkout.pagaleve.com.br/pagaleve-transparent-checkout-installer.js"></script>
+
+    <div class="pagaleve-payment-success-details">
+        <img src="<?php echo $this->getSkinUrl('pagaleve/images/pagaleve-logo.png'); ?>" alt="Pagaleve" />
+        <p>
+            <?php echo $this->__('Your payment will start soon, a pop-up will open to you complete the payment. Please wait.'); ?>
+        </p>
+    </div>
+
+    <script type="text/javascript">
+        let transparentCheckoutPagaleve = new TransparentCheckout();
+
+        function initTransparentCheckout() {
+            transparentCheckoutPagaleve.init({
+                checkoutId: "<?= $_payment->getPagaleveCheckoutId(); ?>",
+                checkoutUrl: "<?= $_payment->getPagaleveCheckoutUrl(); ?>",
+                retrieveAbandonedCartUrl: "<?= $this->getRetrieveAbandonedCartUrl($_order->getId()); ?>"
+            });
+        }
+        setTimeout(initTransparentCheckout, 1000);
+    </script>
+<?php endif; ?>

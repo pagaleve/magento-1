@@ -4,7 +4,7 @@
  * @Email: warleyelias@gmail.com
  * @Date: 2023-01-04 17:06:43
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-01-05 12:00:14
+ * @Last Modified time: 2023-05-04 12:14:27
  */
 
 class Pagaleve_Pix_Model_Request_Checkout extends Mage_Core_Model_Abstract
@@ -45,7 +45,7 @@ class Pagaleve_Pix_Model_Request_Checkout extends Mage_Core_Model_Abstract
                     'phone_number' => $_helper->formatPhone($_billingAddress->getTelephone())
                 ]
             ],
-            //'webhook_url' => Mage::getUrl('pagaleve/webhook'),
+            'webhook_url' => Mage::getUrl('pagaleve/webhook'),
             'approve_url' => Mage::getUrl('pagaleve/checkout/approve'),
             'cancel_url' => Mage::getUrl('pagaleve/checkout/cancel')
         ];
