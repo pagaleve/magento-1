@@ -4,12 +4,14 @@
  * @Email: warleyelias@gmail.com
  * @Date: 2023-01-05 11:38:09
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-01-05 12:50:59
+ * @Last Modified time: 2023-06-01 13:58:11
  */
 
 class Pagaleve_Pix_Model_Cron {
     const CONFIG_PAGALEVE_STATUS_NEW = 'payment/Pagaleve_Pix/order_status';
     const CONFIG_PAGALEVE_RETRY_DEADLINE = 'payment/Pagaleve_Pix/retry_deadline';
+
+    const CONFIG_PAGALEVE_UPFRONT_STATUS_NEW = 'payment/pagaleve_upfront/order_status';
 
     protected function getConfigData($path, $storeId = null) {
         if (null === $storeId) {
@@ -19,8 +21,8 @@ class Pagaleve_Pix_Model_Cron {
     }
 
     protected function getOrderCollection() {
-        $paymentCode = ['Pagaleve_Pix'];
-        $status = $this->getConfigData(self::CONFIG_PAGALEVE_STATUS_NEW);
+        $paymentCode = ['Pagaleve_Pix', 'pagaleve_upfront'];
+        $status = [$this->getConfigData(self::CONFIG_PAGALEVE_STATUS_NEW), $this->getConfigData(self::CONFIG_PAGALEVE_UPFRONT_STATUS_NEW)];
         $deadLine = $this->getConfigData(self::CONFIG_PAGALEVE_RETRY_DEADLINE);
         $toDate = date('Y-m-d H:i:s');
         $fromDate = date('Y-m-d H:i:s', strtotime('- ' . $deadLine . ' days'));
@@ -36,7 +38,7 @@ class Pagaleve_Pix_Model_Cron {
         );
         $collection->addFieldToFilter('payment.method', ['in' => $paymentCode]);
         $collection->addFieldToFilter('created_at',['from' => $fromDate, 'to' => $toDate]);
-        $collection->addAttributeToFilter('status', $status);
+        $collection->addAttributeToFilter('status', ['in' => $status]);
         //Mage::depura((string)$collection->getSelect());
         return $collection;
     }

@@ -4,10 +4,12 @@
  * @Email: warley.elias@pentagrama.com.br
  * @Date: 2023-05-03 16:15:26
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-05-04 16:21:51
+ * @Last Modified time: 2023-06-01 13:28:33
  */
 ?>
-<?php if ($this->getMethodCode() === 'Pagaleve_Pix' && $this->isTransparentCheckoutEnabled()) : ?>
+<?php if (  ($this->getMethodCode() === 'Pagaleve_Pix' || 
+            $this->getMethodCode() === 'pagaleve_upfront') &&
+            $this->isTransparentCheckoutEnabled()) : ?>
     <?php $_order = $this->getOrder(); ?>
     <?php $_payment = $this->getPayment(); ?>
     <div id="pagaleve-transparent-checkout-root"></div>

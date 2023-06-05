@@ -1,5 +1,13 @@
-.pagaleve-container {
+#payment_form_Pagaleve_Pix .pagaleve-container {
     background-image: url('https://assets.pagaleve.com.br/checkout/split.png');
+    background-repeat: no-repeat;
+    min-height: 400px;
+    background-size: contain;
+    background-position: center;
+}
+
+#payment_form_pagaleve_upfront .pagaleve-container {
+    background-image: url('https://assets.pagaleve.com.br/checkout/upfront.png');
     background-repeat: no-repeat;
     min-height: 400px;
     background-size: contain;

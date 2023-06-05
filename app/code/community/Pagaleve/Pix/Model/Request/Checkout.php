@@ -4,12 +4,12 @@
  * @Email: warleyelias@gmail.com
  * @Date: 2023-01-04 17:06:43
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-05-04 12:14:27
+ * @Last Modified time: 2023-06-01 15:27:54
  */
 
 class Pagaleve_Pix_Model_Request_Checkout extends Mage_Core_Model_Abstract
 {
-    protected function prepareRequestParams($_order)
+    protected function prepareRequestParams($_order, $pixUpFront)
     {
         $_helper = Mage::helper('Pagaleve_Pix');
         $_billingAddress = $_order->getBillingAddress();
@@ -27,6 +27,7 @@ class Pagaleve_Pix_Model_Request_Checkout extends Mage_Core_Model_Abstract
                 'amount' => $_helper->formatAmount($_order->getGrandTotal()),
             ],
             'reference' => $_order->getStore()->getName() . ' - ' . $_order->getIncrementId(),
+            'is_pix_upfront' => $pixUpFront,
             'shopper' => [
                 'first_name' => $_billingAddress->getFirstname(),
                 'last_name' => $_billingAddress->getLastname(),
@@ -65,9 +66,9 @@ class Pagaleve_Pix_Model_Request_Checkout extends Mage_Core_Model_Abstract
         return $content;
     }
 
-    public function makeCheckout($_order)
+    public function makeCheckout($_order, $pixUpFront = false)
     {
-        $requestParams = $this->prepareRequestParams($_order);
+        $requestParams = $this->prepareRequestParams($_order, $pixUpFront);
         $_pagalevePixApi = Mage::getModel('Pagaleve_Pix/api');
         $transaction = $_pagalevePixApi->makeCheckout($requestParams);
         return $transaction;

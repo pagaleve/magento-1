@@ -3,7 +3,7 @@
  * @Email: warley.elias@pentagrama.com.br
  * @Date: 2023-05-03 17:27:35
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-05-04 16:21:34
+ * @Last Modified time: 2023-06-01 15:30:20
  */
 
 TransparentCheckout = Class.create({
@@ -13,8 +13,6 @@ TransparentCheckout = Class.create({
         this.checkoutUrl = config.checkoutUrl;
         this.retrieveAbandonedCartUrl = config.retrieveAbandonedCartUrl;
         this.checkoutUrlWithParameter = this.checkoutUrl + '&t=pagaleve';
-        //Questionar handel o motivo de não enviar o atributo pm com valor split assim como no M2
-        this.checkoutUrlWithParameter = this.checkoutUrlWithParameter.replace('&pm=&', '&pm=split&');
 
         self.initPagaLeve(this.checkoutUrlWithParameter);
 

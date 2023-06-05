@@ -4,10 +4,10 @@
  * @Email: warleyelias@gmail.com
  * @Date: 2023-01-04 13:17:29
  * @Last Modified by: Warley Elias
- * @Last Modified time: 2023-01-05 10:49:42
+ * @Last Modified time: 2023-06-01 15:44:54
  */
 
-$installer = new Mage_Sales_Model_Resource_Setup('pagarme_setup');
+$installer = new Mage_Sales_Model_Resource_Setup('Pagaleve_Pix_setup');
 $installer->startSetup();
 
 // Order Payment
