@@ -22,3 +22,9 @@
     margin: auto;
     margin-bottom: 10px;
 }
+
+/*For Moip Checkout */
+.checkout-onepage-index .moip-wrapper .bg-payment-method #payment_form_Pagaleve_Pix,
+.checkout-onepage-index .moip-wrapper .bg-payment-method #payment_form_pagaleve_upfront {
+    display: inline;
+}
