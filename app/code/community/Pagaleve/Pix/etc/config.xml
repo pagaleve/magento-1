@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Pagaleve_Pix>
-            <version>1.3.1</version>
+            <version>1.3.3</version>
         </Pagaleve_Pix>
     </modules>
     <global>
@@ -136,7 +136,7 @@
                 <refund_url_sandbox>https://sandbox-api.pagaleve.io/v1/payments/%s/refund</refund_url_sandbox>
                 <release_url>https://api.pagaleve.com.br/v1/payments/%s/release</release_url>
                 <release_url_sandbox>https://sandbox-api.pagaleve.io/v1/payments/%s/release</release_url_sandbox>
-                <module_version>1.3.1</module_version>
+                <module_version>1.3.3</module_version>
             </Pagaleve_Pix>
             <pagaleve_upfront>
                 <active>1</active>

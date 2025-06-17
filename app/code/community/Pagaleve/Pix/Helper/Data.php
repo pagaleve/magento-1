@@ -17,6 +17,7 @@
 class Pagaleve_Pix_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const CONFIG_PAGALEVE_CHECKOUT_TRANSPARENT_ENABLED = 'payment/Pagaleve_Pix/enabled_transparent_checkout';
+    const CONFIG_PAGALEVE_SECRET_KEY = 'payment/Pagaleve_Pix/secret_key';
 
     public function getVersion() {
         return (string) Mage::getConfig()->getNode()->modules->Pagaleve_Pix->version;
@@ -89,5 +90,9 @@ class Pagaleve_Pix_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function isTransparentCheckoutEnabled() {
         return (bool) $this->getConfigData(self::CONFIG_PAGALEVE_CHECKOUT_TRANSPARENT_ENABLED);
+    }
+
+    public function getSecretKey() {
+        return $this->getConfigData(self::CONFIG_PAGALEVE_SECRET_KEY);
     }
 }

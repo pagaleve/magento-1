@@ -8,12 +8,70 @@
  */
 
 class Pagaleve_Pix_WebhookController extends Mage_Core_Controller_Front_Action {
+    protected function getSignatureFromRequest()
+    {
+        // Tentar diferentes formas de capturar o header
+        $methods = [
+            'X-Pagaleve-Signature',
+            'HTTP_X_PAGALEVE_SIGNATURE'
+        ];
+
+        foreach ($methods as $method) {
+            $signature = $this->getRequest()->getHeader($method);
+            if (!empty($signature)) {
+                return $signature;
+            }
+
+            $signature = $this->getRequest()->getServer($method);
+            if (!empty($signature)) {
+                return $signature;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * return bool
+     */
+    protected function _isAllowed($_helper)
+    {
+        $body = $this->getRequest()->getRawBody();
+        $secret = $_helper->getSecretKey();
+        if (empty($secret)) {
+            Mage::log('Pagaleve: Secret key is not set', null, 'pagaleve_webhook.log');
+            return false;
+        }
+        $signatureHeader = $this->getSignatureFromRequest();
+        if (empty($signatureHeader)) {
+            Mage::log('Pagaleve: Signature header is not set', null, 'pagaleve_webhook.log');
+            return false;
+        }
+        if (empty($body)) {
+            Mage::log('Pagaleve: Body is empty', null, 'pagaleve_webhook.log');
+            return false;
+        }
+        // Validate the signature
+        $signature = hash_hmac('sha256', $body, $secret);
+        // Use hash_equals to prevent timing attacks
+        if (!hash_equals($signature, $signatureHeader)) {
+            Mage::log('Pagaleve: Signature does not match', null, 'pagaleve_webhook.log');
+            return false;
+        }
+        return true;
+    }
+
     public function indexAction() {
         //get body request
         $body = $this->getRequest()->getRawBody();
         $postData = json_decode($body, true);
-
+        $_helper = Mage::helper('Pagaleve_Pix');
         $this->getResponse()->setHeader('Content-type', 'application/json');
+        if (!$this->_isAllowed($_helper)) {
+            Mage::log('Pagaleve: Unauthorized access', null, 'pagaleve_webhook.log');
+            $this->getResponse()->setBody(json_encode(['success' => false, 'message' => 'Unauthorized access']));
+            return;
+        }
         if (empty($postData)) {
             Mage::log('Pagaleve: No data received', null, 'pagaleve_webhook.log');
             $this->getResponse()->setBody(json_encode(['success' => false, 'message' => 'No data received']));
@@ -44,7 +102,6 @@ class Pagaleve_Pix_WebhookController extends Mage_Core_Controller_Front_Action {
 
         if(count($collection) > 0) {
             $_order = $collection->getFirstItem();
-            $_helper = Mage::helper('Pagaleve_Pix');
             $_pagalevePayment = Mage::getModel('Pagaleve_Pix/request_payment');
             try {
                 if ($postData['state'] == 'AUTHORIZED') {

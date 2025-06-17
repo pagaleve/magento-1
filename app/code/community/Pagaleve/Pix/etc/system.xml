@@ -89,6 +89,14 @@
 								<environment>0</environment>
 							</depends>
 						</token_password_sandbox>
+						<secret_key translate="label">
+							<label>Secret Key</label>
+							<frontend_type>password</frontend_type>
+							<sort_order>55</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</secret_key>
 						<order_status translate="label">
 							<label>New Order Status</label>
 							<frontend_type>select</frontend_type>

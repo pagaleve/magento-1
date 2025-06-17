@@ -9,9 +9,6 @@
 
 class Pagaleve_Pix_Model_Api
 {
-	const ENDPOINT 	= 'https://api.getnet.com.br';
-	const ENDPOINT_STAGING  = 'https://api-sandbox.getnet.com.br/';
-
     const CONFIG_PAGALEVE_ENVIRONMENT = 'payment/Pagaleve_Pix/environment';
     const CONFIG_PAGALEVE_TOKEN_USERNAME = 'payment/Pagaleve_Pix/token_username';
     const CONFIG_PAGALEVE_TOKEN_PASSWORD = 'payment/Pagaleve_Pix/token_password';
