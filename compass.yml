@@ -1,0 +1,14 @@
+name: magento-1
+id: ari:cloud:compass:af8146a7-7c7d-42f3-a993-6920c682799e:component/fc7a1c13-9733-41ec-b591-0e5bff7a7284/09981440-f986-4e72-84b6-f3ef9c1b1412
+description: Plugin para o Magento 1
+configVersion: 1
+typeId: SERVICE
+fields:
+  tier: 4
+links: []
+relationships:
+  DEPENDS_ON: []
+labels:
+  - language:php
+  - source:github
+customFields: null
